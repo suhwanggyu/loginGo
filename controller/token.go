@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/suhwanggyu/loginGo/key"
+	"github.com/suhwanggyu/loginGo/model"
 )
 
 type Token interface {
@@ -38,7 +39,6 @@ func (token *TokenExpired) sig(email string) {
 	bin := make([]byte, 8)
 	binary.LittleEndian.PutUint64(bin, uint64(token.Expired.Unix()))
 	x := append([]byte(email), bin...)
-	fmt.Println(x)
 	hash.Write(x)
 	dig := hash.Sum(nil)
 	data, _ := privatekey.Sign(rand.Reader, dig, crypto.SHA256)
@@ -53,11 +53,19 @@ func (token *TokenExpired) sig(email string) {
 func ControlToken(w http.ResponseWriter, r *http.Request) {
 	req := Request{}
 	json.NewDecoder(r.Body).Decode(&req)
+	check := model.CheckAuth(req.Email, req.Password)
+	if check == false {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w)
+		return
+	}
 	var token Token
 	switch req.Method {
 	case "Expired":
 		token = &TokenExpired{}
 		// @dev Will make more option
+	default:
+		return
 	}
 	token.sig(req.Email)
 	w.WriteHeader(http.StatusCreated)
