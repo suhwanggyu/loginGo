@@ -11,7 +11,6 @@ func optionAndCors(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
-	fmt.Fprint(w, nil)
 }
 
 func routing(w http.ResponseWriter, r *http.Request) {
@@ -24,10 +23,13 @@ func routing(w http.ResponseWriter, r *http.Request) {
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Request arrived")
 	switch r.Method {
 	case "OPTIONS":
 		optionAndCors(w, r)
+		fmt.Fprint(w, nil)
 	default:
+		optionAndCors(w, r)
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		routing(w, r)
 	}
