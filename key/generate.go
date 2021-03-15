@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 )
 
@@ -23,15 +24,14 @@ func Generate() {
 	fmt.Fprint(file, string(data))
 }
 
-func Recovery() rsa.PrivateKey {
-
+func Recovery() *rsa.PrivateKey {
 	jsonfile, err := os.Open("key.gen")
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	defer jsonfile.Close()
 	bytes, _ := ioutil.ReadAll(jsonfile)
 	var private rsa.PrivateKey
 	json.Unmarshal(bytes, &private)
-	return private
+	return &private
 }

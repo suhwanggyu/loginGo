@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -10,8 +11,10 @@ import (
 )
 
 func main() {
-	key.Generate()
-	key.Recovery()
+	gen := flag.Bool("gen", false,"a boolean")
+	if *gen {
+		key.Generate()
+	}
 	mux := http.NewServeMux()
 	fmt.Println("Login server open")
 	mux.HandleFunc("/", router.Handler)

@@ -7,18 +7,6 @@ import (
 	"github.com/suhwanggyu/loginGo/controller"
 )
 
-func handleLogin() {
-
-}
-
-func handleLogout() {
-
-}
-
-func handleRegister() {
-
-}
-
 func optionAndCors(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
@@ -31,6 +19,7 @@ func routing(w http.ResponseWriter, r *http.Request) {
 	case "/token":
 		controller.ControlToken(w, r)
 	case "/user":
+		controller.ControlUser(w, r)
 	}
 }
 

@@ -2,7 +2,6 @@ package model
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -30,8 +29,7 @@ func connectDB() *sql.DB {
 	config := user + ":" + pwd + "@tcp(" + host + ")/user"
 	db, err := sql.Open("mysql", config)
 	if err != nil {
-		log.Fatal(err)
-		fmt.Println("No database")
+		panic("Can't access database")
 		return nil
 	}
 	return db
