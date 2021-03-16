@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func viperEnv(key string) string {
+func ViperEnv(key string) string {
 	viper.SetConfigFile(".env")
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -23,9 +23,9 @@ func viperEnv(key string) string {
 
 // @dev please close db
 func connectDB() *sql.DB {
-	host := viperEnv("DBHOST")
-	user := viperEnv("USER")
-	pwd := viperEnv("PASSWORD")
+	host := ViperEnv("DBHOST")
+	user := ViperEnv("USER")
+	pwd := ViperEnv("PASSWORD")
 	config := user + ":" + pwd + "@tcp(" + host + ")/user"
 	db, err := sql.Open("mysql", config)
 	if err != nil {
