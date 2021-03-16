@@ -20,7 +20,7 @@ func CheckTokenExpired(pubkey rsa.PublicKey, token TokenExpired) bool{
 	hash.Write(x)
 	dig := hash.Sum(nil)
 	err := rsa.VerifyPKCS1v15(&pubkey, crypto.SHA256, dig, token.Sigdata)
-	if err != nil {
+	if err == nil {
 		fmt.Println("Verify")
 		return true
 	}

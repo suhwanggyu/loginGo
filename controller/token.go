@@ -79,6 +79,9 @@ func ControlToken(w http.ResponseWriter, r *http.Request) {
 }
 
 func ControlPubkey(w http.ResponseWriter, r *http.Request) {
+	if privateKey == nil {
+		privateKey = key.Recovery()
+	}
 	pub := x509.MarshalPKCS1PublicKey(&privateKey.PublicKey)
 	w.WriteHeader(http.StatusAccepted)
 	w.Write(pub)
