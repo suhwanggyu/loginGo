@@ -10,7 +10,7 @@ import (
 )
 
 func CheckTokenExpired(pubkey rsa.PublicKey, token TokenExpired) bool{
-	if token.Expired.Unix() > time.Now().Unix() {
+	if token.Expired.Unix() < time.Now().Unix() {
 		return false
 	}
 	bin := make([]byte, 8)
