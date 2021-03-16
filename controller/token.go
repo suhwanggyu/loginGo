@@ -5,6 +5,7 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha256"
+	"crypto/x509"
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
@@ -75,4 +76,10 @@ func ControlToken(w http.ResponseWriter, r *http.Request) {
 	token.sig(req.Email)
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(token)
+}
+
+func ControlPubkey(w http.ResponseWriter, r *http.Request) {
+	pub := x509.MarshalPKCS1PublicKey(&privateKey.PublicKey)
+	w.WriteHeader(http.StatusAccepted)
+	w.Write(pub)
 }

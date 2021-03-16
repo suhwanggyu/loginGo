@@ -19,6 +19,8 @@ func routing(w http.ResponseWriter, r *http.Request) {
 		controller.ControlToken(w, r)
 	case "/user":
 		controller.ControlUser(w, r)
+	case "/publickey":
+		controller.ControlPubkey(w, r)
 	}
 }
 

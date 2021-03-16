@@ -1,4 +1,4 @@
-package key
+package controller
 
 import (
 	"crypto"
@@ -6,17 +6,16 @@ import (
 	"crypto/sha256"
 	"encoding/binary"
 	"fmt"
-	"github.com/suhwanggyu/loginGo/controller"
 	"time"
 )
 
-func CheckTokenExpired(pubkey rsa.PublicKey, token controller.TokenExpired) bool{
+func CheckTokenExpired(pubkey rsa.PublicKey, token TokenExpired) bool{
 	if token.Expired.Unix() > time.Now().Unix() {
 		return false
 	}
 	bin := make([]byte, 8)
 	binary.LittleEndian.PutUint64(bin, uint64(token.Expired.Unix()))
-	x := append([]byte(email), bin...)
+	x := append([]byte(token.Email), bin...)
 	hash := sha256.New()
 	hash.Write(x)
 	dig := hash.Sum(nil)
